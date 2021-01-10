@@ -134,6 +134,7 @@ public class Controller implements Initializable, IController, NativeMouseInputL
         }
 
         btnStop.setDisable(false);
+        btnStart.setDisable(true);
 
         for (File file : dir.listFiles()) {
             file.delete();
@@ -203,6 +204,7 @@ public class Controller implements Initializable, IController, NativeMouseInputL
             }
 
             btnStop.setDisable(true);
+            btnStart.setDisable(false);
 
             displayTray(out);
         } catch (NullPointerException e) {
@@ -219,17 +221,16 @@ public class Controller implements Initializable, IController, NativeMouseInputL
         ArrayList<File> files = new ArrayList<>();
         files.add(file);
 
-        TrayIcon trayIcon = new TrayIcon(image, "Tray Demo");
+        TrayIcon trayIcon = new TrayIcon(image, "Tray");
         trayIcon.setImageAutoSize(true);
-        trayIcon.addActionListener(e -> {
-            Platform.runLater(() -> {
-                Clipboard clipboard = Clipboard.getSystemClipboard();
-                ClipboardContent content = new ClipboardContent();
-                content.putFiles(files);
-                clipboard.setContent(content);
-            });
-
-        });
+        trayIcon.addActionListener(e -> Platform.runLater(() -> {
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            ClipboardContent content = new ClipboardContent();
+            content.putFiles(files);
+            clipboard.setContent(content);
+            Platform.exit();
+            tray.remove(trayIcon);
+        }));
 
         trayIcon.setToolTip("System tray icon demo");
         tray.add(trayIcon);

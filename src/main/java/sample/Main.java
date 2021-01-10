@@ -10,11 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -35,6 +34,12 @@ public class Main extends Application {
         controller = loader.getController();
         controller.setMainClass(this);
         controller.setStage(primaryStage);
+
+        primaryStage.getScene().setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                primaryStage.close();
+            }
+        });
     }
 
     int left = 0, top = 0, right = 0, bottom = 0, width = 0, height = 0;
